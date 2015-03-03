@@ -23,7 +23,7 @@ public class FileOpsTest {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		FileOps file 		= new FileOps("test.txt");
+		FileOps file 		= new FileOps("testfiles/test.txt");
 		List<String> out = null;
 		try {
 			out = file.read();
@@ -35,7 +35,7 @@ public class FileOpsTest {
 		Date d = new Date();
 		out.add("");
 		out.add("Saved: "+d.toString());
-		FileOps fileout 		= new FileOps("testout.txt");
+		FileOps fileout 		= new FileOps("testfiles/testout.txt");
 		try {
 			fileout.save(out);
 		} catch (Exception e) {
