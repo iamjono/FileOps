@@ -1,11 +1,9 @@
-/**
- * 
- */
 package files;
 
 /**
- * @author jono
- *
+ * @author Jonathan Guthrie
+ * jono@guthrie.net.nz
+ * Test file for FileOps wrapper
  */
 
 import java.io.FileNotFoundException;
@@ -23,24 +21,49 @@ public class FileOpsTest {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+		/*
+		 * Set up file to read
+		 */
 		FileOps file 		= new FileOps("testfiles/test.txt");
-		List<String> out = null;
-		try {
-			out = file.read();
-			System.out.println(String.join(", ", out));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
+		/*
+		 * out is a List object, each line of the file being read is
+		 * being fed into this list, in order.
+		 */
+		List<String> out = null;
+		
+		/*
+		 * File read command
+		 * Populates the List with the file contents
+		 */
+		out = file.read();
+		
+		/*
+		 * Output to console
+		 */
+		System.out.println(String.join(", ", out));
+		
+		
+		/*
+		 * Write test
+		 */
+		
+		/*
+		 * Construct a new date to timestamp the written file with
+		 */
 		Date d = new Date();
 		out.add("");
 		out.add("Saved: "+d.toString());
+		
+		/*
+		 * Set the file to write to
+		 */
 		FileOps fileout 		= new FileOps("testfiles/testout.txt");
-		try {
-			fileout.save(out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		/*
+		 * Save the file with new content.
+		 */
+		fileout.save(out);
 	}
 
 }

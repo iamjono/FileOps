@@ -1,10 +1,27 @@
-/**
- * 
- */
 package files;
 
 /**
- * @author jono
+ * @author Jonathan Guthrie
+ * jono@guthrie.net.nz
+ * 
+ * FileOps is a simple wrapper for file operations
+ * 
+ * READ:
+ * 		FileOps file 		= new FileOps("testfiles/test.txt");
+ *		List<String> out = null;
+ *		try {
+ *			out = file.read();
+ *		} catch (Exception e) {
+ *			e.printStackTrace();
+ *		}
+ *
+ * WRITE:
+ * 		FileOps fileout 		= new FileOps("testfiles/testout.txt");
+ *		try {
+ *			fileout.save(out);
+ *		} catch (Exception e) {
+ *			e.printStackTrace();
+ *		}
  *
  */
 
@@ -14,21 +31,34 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class FileOps {
+	/*
+	 * inputStream and outputStream fields are initialized as null 
+	 * so query can be made to close if they have been populated
+	 */
 	private static BufferedReader inputStream = null;
 	private static PrintWriter outputStream = null;
+	/*
+	 * Field "file" is persistent to the object
+	 */
 	private static String file = null;
 	
-
+	/*
+	 * Constructor
+	 */
     public FileOps(String inputStream) throws FileNotFoundException, IOException {
     	file = inputStream;
 		setInputStream(new BufferedReader(new FileReader(inputStream)));
 	}
 
-
-
+    /*
+     * Read method
+     * Takes no params, returns List of type String
+     */
 	public static List<String> read() throws IOException {
 		List<String> list = new ArrayList<String>();
 
@@ -43,26 +73,34 @@ public class FileOps {
         return list;
     }
 	
-	public static void save(String f) throws IOException {
+    /*
+     * Save method
+     * Takes no params, returns List of type String
+     */
+	public static void save(String f) {
 
         try {
             setOutputStream(new PrintWriter(new FileWriter(f)));
-
-            String l;
-            while ((l = getInputStream().readLine()) != null) {
-                getOutputStream().println(l);
-            }
-        } finally {
+            getOutputStream().println(f);
+        } catch (IOException e) {
+			e.printStackTrace();
+		} finally {
         	close();
         }
     }
-	public static void save(List<String> lines) throws IOException {
+    /*
+     * Save method
+     * Takes no params, returns List of type String
+     */
+	public static void save(List<String> lines) {
         try {
             setOutputStream(new PrintWriter(new FileWriter(file)));
             for(int i = 0; i < lines.size(); i++){
                 getOutputStream().println(lines.get(i));
             }
-        } finally {
+        } catch (IOException e) {
+			e.printStackTrace();
+		} finally {
         	close();
         }
     }
@@ -102,9 +140,16 @@ public class FileOps {
 		FileOps.outputStream = outputStream;
 	}
 	
-	private static void close() throws IOException {
+	/*
+	 * Close the files - if set
+	 */
+	private static void close() {
 		if (getInputStream() != null) {
-			getInputStream().close();
+			try {
+				getInputStream().close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		if (getOutputStream() != null) {
 			getOutputStream().close();
